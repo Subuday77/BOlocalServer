@@ -1,11 +1,9 @@
 package com.localServer.beans;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
-import org.openqa.selenium.By;
-import org.openqa.selenium.NoSuchWindowException;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebDriverException;
+import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
+
 
 
 import org.openqa.selenium.support.ui.Select;
@@ -13,7 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
+
 import java.util.concurrent.TimeUnit;
 
 @Component
@@ -75,66 +73,163 @@ public class Selenium {
 
     public ResponseEntity<?> createOperator(Operator operator) {
         try {
-            WebDriver webDriver = webDriver1;
-            webDriver.get("https://boint.tableslive.com/office.php?action=admin&sub_act=operator_page");
-            webDriver.findElement(By.xpath("//*[@id=\"center\"]/form/table/tbody/tr[1]/td[1]/a/strong")).click();
-            webDriver.findElement(By.xpath("//*[@id=\"CustomID\"]")).sendKeys(String.valueOf(operator.getOperatorId()));
-            webDriver.findElement(By.xpath("//*[@id=\"center\"]/form/table/tbody/tr[2]/td[2]/input")).sendKeys(operator.getOperatorName());
-            webDriver.findElement(By.xpath("//*[@id=\"center\"]/form/table/tbody/tr[3]/td[2]/input")).sendKeys(String.valueOf(1));
-            webDriver.findElement(By.xpath("//*[@id=\"center\"]/form/table/tbody/tr[4]/td[2]/input")).sendKeys(String.valueOf(1));
-            webDriver.findElement(By.xpath("//*[@id=\"center\"]/form/table/tbody/tr[5]/td[2]/input")).sendKeys(String.valueOf(1));
-            webDriver.findElement(By.xpath("//*[@id=\"center\"]/form/table/tbody/tr[6]/td[2]/input")).sendKeys(String.valueOf(1));
-            Select dropdown = new Select(webDriver.findElement(By.xpath("//*[@id=\"IsActive\"]")));
-            dropdown.selectByVisibleText("Active");
-            if (webDriver.findElement(By.xpath("//*[@id=\"CustomIDStatus\"]")).getText().contains("Taken By")) {
-                return new ResponseEntity<>("Operator ID already taken", HttpStatus.BAD_REQUEST);
-            }
-            //webDriver.findElement(By.xpath("//*[@id=\"center\"]/form/table/tbody/tr[13]/td[2]/input")).click();
+        WebDriver webDriver = webDriver1;
+        webDriver.get("https://boint.tableslive.com/office.php?action=admin&sub_act=operator_page"); //create operator
+        webDriver.findElement(By.xpath("//*[@id=\"center\"]/form/table/tbody/tr[1]/td[1]/a/strong")).click();
+        webDriver.findElement(By.xpath("//*[@id=\"CustomID\"]")).sendKeys(String.valueOf(operator.getOperatorId()));
+        webDriver.findElement(By.xpath("//*[@id=\"center\"]/form/table/tbody/tr[2]/td[2]/input")).sendKeys(operator.getOperatorName());
+        webDriver.findElement(By.xpath("//*[@id=\"center\"]/form/table/tbody/tr[3]/td[2]/input")).sendKeys(String.valueOf(1));
+        webDriver.findElement(By.xpath("//*[@id=\"center\"]/form/table/tbody/tr[4]/td[2]/input")).sendKeys(String.valueOf(1));
+        webDriver.findElement(By.xpath("//*[@id=\"center\"]/form/table/tbody/tr[5]/td[2]/input")).sendKeys(String.valueOf(1));
+        webDriver.findElement(By.xpath("//*[@id=\"center\"]/form/table/tbody/tr[6]/td[2]/input")).sendKeys(String.valueOf(1));
+        Select dropdown = new Select(webDriver.findElement(By.xpath("//*[@id=\"IsActive\"]")));
+        dropdown.selectByVisibleText("Active");
+        if (webDriver.findElement(By.xpath("//*[@id=\"CustomIDStatus\"]")).getText().contains("Taken By")) {
+            return new ResponseEntity<>("Operator ID already taken", HttpStatus.IM_USED);
+        }
+        webDriver.findElement(By.xpath("//*[@id=\"center\"]/form/table/tbody/tr[13]/td[2]/input")).click();
+        try {
+            TimeUnit.SECONDS.sleep(2);
+        } catch (InterruptedException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        webDriver.get("https://boint.tableslive.com/office.php?action=admin&sub_act=bo_user_page"); // create bo user
+        webDriver.findElement(By.xpath("//*[@id=\"center\"]/form/table[1]/tbody/tr[1]/td[2]/input")).sendKeys(operator.getBoUserName());
+        webDriver.findElement(By.xpath("//*[@id=\"newpass1\"]")).sendKeys(operator.getBoPassword());
+        webDriver.findElement(By.xpath("//*[@id=\"newpass2\"]")).sendKeys(operator.getBoPassword());
 
-            return new ResponseEntity<HttpStatus>(HttpStatus.OK);
+        char[] operatorId = String.valueOf(operator.getOperatorId()).toCharArray();
+        while (true) {
+            webDriver.findElement(By.xpath("//*[@id=\"OperatorDisplay\"]")).clear();
+            for (char number : operatorId) {
+                webDriver.findElement(By.xpath("//*[@id=\"OperatorDisplay\"]")).sendKeys(String.valueOf(number));
+            }
+            try {
+                TimeUnit.SECONDS.sleep(1);
+            } catch (InterruptedException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+            if (webDriver.findElement(By.xpath("/html/body/div[4]/form/table[1]/tbody/tr[4]/td[2]/table/tbody/tr/td/table/tbody/tr/td/select/option[1]")).getText().contains(String.valueOf(operator.getOperatorId()))) {
+                webDriver.findElement(By.xpath("/html/body/div[4]/form/table[1]/tbody/tr[4]/td[2]/table/tbody/tr/td/table/tbody/tr/td/select/option[1]")).click();
+                break;
+            }
+        }
+        dropdown = new Select(webDriver.findElement((By.xpath("//*[@id=\"PermissionTypeID\"]"))));
+        dropdown.selectByVisibleText("Jedi");
+        dropdown.selectByVisibleText("Custom");
+        dropdown = new Select(webDriver.findElement(By.xpath("//*[@id=\"ConversionCode\"]")));
+        dropdown.selectByVisibleText("EUR");
+        webDriver.findElement(By.xpath("/html/body/div[4]/form/table[1]/tbody/tr[15]/td[3]/div/input[1]")).sendKeys(Keys.SPACE);
+        dropdown = new Select(webDriver.findElement(By.xpath("//*[@id=\"TempTypeID\"]")));
+        dropdown.selectByVisibleText("INT Layer");
+        JavascriptExecutor executor = (JavascriptExecutor) webDriver;
+        executor.executeScript("arguments[0].click();", webDriver.findElement(By.xpath("/html/body/div[4]/form/table[2]/tbody/tr/td[1]/table/tbody/tr/td/table/tbody/tr[25]/td[1]/div/label"))); //Outgoing Financial Messages
+        executor.executeScript("arguments[0].click();", webDriver.findElement(By.xpath("/html/body/div[4]/form/table[2]/tbody/tr/td[1]/table/tbody/tr/td/table/tbody/tr[28]/td[1]/div/label"))); //Roulette Radar
+        executor.executeScript("arguments[0].click();", webDriver.findElement(By.xpath("/html/body/div[4]/form/table[2]/tbody/tr/td[1]/table/tbody/tr/td/table/tbody/tr[19]/td[2]/div/label"))); //Late Bets Reports
+        executor.executeScript("arguments[0].click();", webDriver.findElement(By.xpath("/html/body/div[4]/form/table[2]/tbody/tr/td[1]/table/tbody/tr/td/table/tbody/tr[37]/td/div/label"))); //Settings
+        executor.executeScript("arguments[0].click();", webDriver.findElement(By.xpath("/html/body/div[4]/form/table[2]/tbody/tr/td[1]/table/tbody/tr/td/table/tbody/tr[37]/td/div/label"))); //Settings
+        executor.executeScript("arguments[0].click();", webDriver.findElement(By.xpath("/html/body/div[4]/form/table[2]/tbody/tr/td[1]/table/tbody/tr/td/table/tbody/tr[80]/td/div/label"))); //Admin
+        executor.executeScript("arguments[0].click();", webDriver.findElement(By.xpath("/html/body/div[4]/form/table[2]/tbody/tr/td[1]/table/tbody/tr/td/table/tbody/tr[80]/td/div/label"))); //Admin
+        executor.executeScript("arguments[0].click();", webDriver.findElement(By.xpath("/html/body/div[4]/form/table[2]/tbody/tr/td[1]/table/tbody/tr/td/table/tbody/tr[83]/td[1]/div/label"))); //Change Password
+        executor.executeScript("arguments[0].click();", webDriver.findElement(By.xpath("/html/body/div[4]/form/table[2]/tbody/tr/td[1]/table/tbody/tr/td/table/tbody/tr[103]/td[1]/div/label"))); //Api Access
+
+          //  executor.executeScript("arguments[0].click();", webDriver.findElement(By.xpath("/html/body/div[4]/form/table[1]/tbody/tr[16]/td[2]/input")));
+      webDriver.findElement(By.xpath("/html/body/div[4]/form/table[1]/tbody/tr[16]/td[2]/input")).click();
+        try {
+            TimeUnit.SECONDS.sleep(3);
+        } catch (InterruptedException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+//        webDriver.get("https://boint.tableslive.com/office.php?action=settings&sub_act=operator_config_old"); //config apache
+//        try {
+//            TimeUnit.SECONDS.sleep(3);
+//        } catch (InterruptedException e) {
+//            // TODO Auto-generated catch block
+//            e.printStackTrace();
+//        }
+//        executor.executeScript("arguments[0].click();",webDriver.findElement(By.xpath("//*[@hrefid=\"operators\"]")));
+//        webDriver.findElement(By.xpath("//*[@id=\"operator-config\"]/input")).sendKeys(String.valueOf(operator.getOperatorId()));
+//        dropdown = new Select(webDriver.findElement(By.xpath("//*[@id=\"operator-config\"]/select")));
+//        dropdown.selectByVisibleText("10457001");
+        // webDriver.findElement(By.xpath("//*[@id=\"operator-config\"]/button")).click();
+
+        webDriver.get("https://boint.tableslive.com/office.php?action=settings&sub_act=add_limits"); //limits
+        try {
+            TimeUnit.SECONDS.sleep(1);
+        } catch (InterruptedException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        for (String limit:operator.getLimits()) {
+            try {
+                TimeUnit.SECONDS.sleep(2);
+            } catch (InterruptedException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+            Select dropdown1 = new Select(webDriver.findElement(By.xpath("//*[@id=\"currency_from\"]")));
+            dropdown = new Select(webDriver.findElement(By.xpath("//*[@id=\"currency_to\"]")));
+            webDriver.findElement(By.xpath("/html/body/div[4]/form/div/table/tbody/tr[2]/td[2]/input")).sendKeys("13000014");
+            webDriver.findElement(By.xpath("/html/body/div[4]/form/div/table/tbody/tr[3]/td[2]/input")).sendKeys(String.valueOf(operator.getOperatorId()));
+            dropdown1.selectByVisibleText(limit);
+            dropdown.selectByVisibleText(limit);
+      webDriver.findElement(By.xpath("//*[@id=\"center\"]/form/div/table/tbody/tr[5]/td/input")).click();
+            try {
+                TimeUnit.SECONDS.sleep(1);
+            } catch (InterruptedException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+        }
+            webDriver.quit();
+           webDriver1 = null;
+        return new ResponseEntity<HttpStatus>(HttpStatus.OK);
         } catch (Exception e) {
-            return new ResponseEntity<>("Authentication not passed. Try to re-login", HttpStatus.FORBIDDEN);
+            return new ResponseEntity<>("Something went wrong", HttpStatus.BAD_REQUEST);
         }
     }
 
     public ResponseEntity<?> tablesManipulations(int[] tablesList, String actionType) {
 //        System.out.println(actionType);
 
-try {
-    WebDriver webDriver = webDriver1;
-        webDriver.get("https://boint.tableslive.com/office.php?action=settings&sub_act=table_mgmt");
-    switch (actionType) {
-        case "restartAll":
-            closeAllTables(webDriver);
-            openCloseTables(webDriver, tablesList, "open");
-            webDriver.quit();
-            webDriver1 = null;
-            return new ResponseEntity<HttpStatus>(HttpStatus.OK);
-        case "closeAll":
-            closeAllTables(webDriver);
-            webDriver.quit();
-            webDriver1 = null;
-            return new ResponseEntity<HttpStatus>(HttpStatus.OK);
-        case "restart":
-            openCloseTables(webDriver, tablesList, "close");
-            openCloseTables(webDriver, tablesList, "open");
-            webDriver.quit();
-            webDriver1 = null;
-            return new ResponseEntity<HttpStatus>(HttpStatus.OK);
-        case "close":
-            openCloseTables(webDriver, tablesList, "close");
-            webDriver.quit();
-            webDriver1 = null;
-            return new ResponseEntity<HttpStatus>(HttpStatus.OK);
-        case "open":
-            openCloseTables(webDriver, tablesList, "open");
-            webDriver.quit();
-            webDriver1 = null;
-            return new ResponseEntity<HttpStatus>(HttpStatus.OK);
-    }
-} catch (Exception e) {
-    return new ResponseEntity<HttpStatus>(HttpStatus.BAD_REQUEST);
-}
+        try {
+            WebDriver webDriver = webDriver1;
+            webDriver.get("https://boint.tableslive.com/office.php?action=settings&sub_act=table_mgmt");
+            switch (actionType) {
+                case "restartAll":
+                    closeAllTables(webDriver);
+                    openCloseTables(webDriver, tablesList, "open");
+                    webDriver.quit();
+                    webDriver1 = null;
+                    return new ResponseEntity<HttpStatus>(HttpStatus.OK);
+                case "closeAll":
+                    closeAllTables(webDriver);
+                    webDriver.quit();
+                    webDriver1 = null;
+                    return new ResponseEntity<HttpStatus>(HttpStatus.OK);
+                case "restart":
+                    openCloseTables(webDriver, tablesList, "close");
+                    openCloseTables(webDriver, tablesList, "open");
+                    webDriver.quit();
+                    webDriver1 = null;
+                    return new ResponseEntity<HttpStatus>(HttpStatus.OK);
+                case "close":
+                    openCloseTables(webDriver, tablesList, "close");
+                    webDriver.quit();
+                    webDriver1 = null;
+                    return new ResponseEntity<HttpStatus>(HttpStatus.OK);
+                case "open":
+                    openCloseTables(webDriver, tablesList, "open");
+                    webDriver.quit();
+                    webDriver1 = null;
+                    return new ResponseEntity<HttpStatus>(HttpStatus.OK);
+            }
+        } catch (Exception e) {
+            return new ResponseEntity<HttpStatus>(HttpStatus.BAD_REQUEST);
+        }
 
         return null;
     }
@@ -195,9 +290,12 @@ try {
     private static WebDriver driverSetup(WebDriver webDriver1) {
         WebDriver webDriver = null;
         try {
-            WebDriverManager.chromedriver().setup();
+
+           WebDriverManager.chromedriver().setup();
+          //  WebDriverManager.firefoxdriver().setup();
             if (webDriver1 == null && webDriver == null) {
-                webDriver = new ChromeDriver();
+             webDriver = new ChromeDriver();
+             //   webDriver = new FirefoxDriver();
             } else {
                 webDriver = webDriver1;
             }
@@ -205,6 +303,26 @@ try {
         } catch (Exception e) {
             return null;
         }
+    }
+
+    public static void scrollToTop(WebDriver driver) {
+        ((JavascriptExecutor) driver)
+                .executeScript("window.scrollTo(0,0)");
+    }
+
+    public static void scrollToBottom(WebDriver driver) {
+        ((JavascriptExecutor) driver)
+                .executeScript("window.scrollTo(0, document.body.scrollHeight)");
+    }
+
+    public static void scrollToElementTop(WebDriver driver, WebElement element) {
+        ((JavascriptExecutor) driver).executeScript(
+                "arguments[0].scrollIntoView(true);", element);
+    }
+
+    public static void scrollToElementBottom(WebDriver driver, WebElement element) {
+        ((JavascriptExecutor) driver).executeScript(
+                "arguments[0].scrollIntoView(false);", element);
     }
 }
 

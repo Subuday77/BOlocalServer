@@ -10,9 +10,9 @@ public class Operator {
     private String operatorName;
     private String boUserName;
     private String boPassword;
-    private ArrayList<String> limits;
+    private String[] limits;
 
-    public Operator(long operatorId, String operatorName, String boUserName, String boPassword, ArrayList<String> limits) {
+    public Operator(long operatorId, String operatorName, String boUserName, String boPassword, String[] limits) {
         this.operatorId = operatorId;
         this.operatorName = operatorName;
         this.boUserName = boUserName;
@@ -55,11 +55,11 @@ public class Operator {
         this.boPassword = boPassword;
     }
 
-    public ArrayList<String> getLimits() {
+    public String[] getLimits() {
         return limits;
     }
 
-    public void setLimits(ArrayList<String> limits) {
+    public void setLimits(String[] limits) {
         this.limits = limits;
     }
 }

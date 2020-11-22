@@ -15,9 +15,11 @@ repositories {
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	// https://mvnrepository.com/artifact/org.seleniumhq.selenium/selenium-java
-	compile group: 'org.seleniumhq.selenium', name: 'selenium-java', version: '2.41.0'
+	compile group: 'org.seleniumhq.selenium', name: 'selenium-java', version: '4.0.0-alpha-7'
+
 	// https://mvnrepository.com/artifact/io.github.bonigarcia/webdrivermanager
-	compile group: 'io.github.bonigarcia', name: 'webdrivermanager', version: '3.8.1'
+	compile group: 'io.github.bonigarcia', name: 'webdrivermanager', version: '4.2.2'
+
 	// https://mvnrepository.com/artifact/org.json/json
 	compile group: 'org.json', name: 'json', version: '20190722'
 	testImplementation('org.springframework.boot:spring-boot-starter-test') {
