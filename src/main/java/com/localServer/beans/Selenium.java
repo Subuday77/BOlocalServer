@@ -135,7 +135,7 @@ public class Selenium {
         executor.executeScript("arguments[0].click();", webDriver.findElement(By.xpath("/html/body/div[4]/form/table[2]/tbody/tr/td[1]/table/tbody/tr/td/table/tbody/tr[83]/td[1]/div/label"))); //Change Password
         executor.executeScript("arguments[0].click();", webDriver.findElement(By.xpath("/html/body/div[4]/form/table[2]/tbody/tr/td[1]/table/tbody/tr/td/table/tbody/tr[103]/td[1]/div/label"))); //Api Access
 
-          //  executor.executeScript("arguments[0].click();", webDriver.findElement(By.xpath("/html/body/div[4]/form/table[1]/tbody/tr[16]/td[2]/input")));
+
       webDriver.findElement(By.xpath("/html/body/div[4]/form/table[1]/tbody/tr[16]/td[2]/input")).click();
         try {
             TimeUnit.SECONDS.sleep(3);
@@ -143,19 +143,15 @@ public class Selenium {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
-//        webDriver.get("https://boint.tableslive.com/office.php?action=settings&sub_act=operator_config_old"); //config apache
-//        try {
-//            TimeUnit.SECONDS.sleep(3);
-//        } catch (InterruptedException e) {
-//            // TODO Auto-generated catch block
-//            e.printStackTrace();
-//        }
-//        executor.executeScript("arguments[0].click();",webDriver.findElement(By.xpath("//*[@hrefid=\"operators\"]")));
-//        webDriver.findElement(By.xpath("//*[@id=\"operator-config\"]/input")).sendKeys(String.valueOf(operator.getOperatorId()));
-//        dropdown = new Select(webDriver.findElement(By.xpath("//*[@id=\"operator-config\"]/select")));
-//        dropdown.selectByVisibleText("10457001");
-        // webDriver.findElement(By.xpath("//*[@id=\"operator-config\"]/button")).click();
-
+        webDriver.get("https://boint.tableslive.com/office.php?action=settings&sub_act=operator_config_old"); //config apache
+        webDriver.switchTo().frame(webDriver.findElement(By.xpath("/html/body/div[4]/iframe")));
+        webDriver.findElement(By.xpath("/html/body/div[1]/div[2]")).click();
+        webDriver.findElement(By.xpath("//*[@id=\"operator-config\"]/input")).sendKeys(String.valueOf(operator.getOperatorId()));
+        dropdown = new Select(webDriver.findElement(By.xpath("//*[@id=\"operator-config\"]/select")));
+        dropdown.selectByVisibleText("10457001");
+         webDriver.findElement(By.xpath("//*[@id=\"operator-config\"]/button")).click();
+         Alert alert = webDriver.switchTo().alert();
+            alert.accept();
         webDriver.get("https://boint.tableslive.com/office.php?action=settings&sub_act=add_limits"); //limits
         try {
             TimeUnit.SECONDS.sleep(1);
