@@ -49,7 +49,7 @@ public class ParseController {
         } else {
             String[] lines = searchData.getLogToParse().split("\n");
             for (String line : lines) {
-                if (line.contains("Arriving authetication request")) {
+                if (line.contains("Arriving authentication request")) {
                     initialTokenMap = updateInitialTokenMap(initialTokenMap, line);
                 }
                 if (line.contains("Got auth response") && (searchData.getAdditionalParam() == 0 || line.contains(String.valueOf(searchData.getAdditionalParam())))) {
@@ -60,7 +60,7 @@ public class ParseController {
         return new ResponseEntity<ArrayList<Answer>>(answers, HttpStatus.OK);
     }
 
-    @PostMapping("/stress")
+    @PostMapping("/operators")
     public ResponseEntity<?> getOperatorsForStress(@RequestBody SearchData searchData) {
         HashSet<String> temp = new HashSet<>();
         ArrayList<String> operatorIDs = new ArrayList<>();
@@ -126,7 +126,7 @@ public class ParseController {
                     (lineToParse.contains("Got operator response") || lineToParse.contains("Posting financial post to url"))
                             && (line.contains("{") || lineToParse.contains("{"))) || line.contains("Post to operator took"))) {
                 if ((line.indexOf("{") > 0 && line.indexOf("}") > 0) && Arrays.stream(rounds).anyMatch(line::contains) && line.contains(String.valueOf(operatorId))
-                        || (line.contains("Post to operator took") && !line.contains("null")) && line.contains(String.valueOf(operatorId))) {
+                        || (line.contains("Post to operator took") && !line.contains("null")) && Arrays.stream(rounds).anyMatch(line::contains) && line.contains(String.valueOf(operatorId))) {
                     switch (requestType) {
                         case 1:
                             String[] x = line.split(":", 4);
@@ -220,7 +220,7 @@ public class ParseController {
         HashMap<String, String> response = new HashMap<>();
         response.put("resultCount", String.valueOf(resultCount));
         response.put("requestsCount", String.valueOf(requestsCount));
-        response.put("responsesCount", String.valueOf(requestsCount));
+        response.put("responsesCount", String.valueOf(responsesCount));
         response.put("debitCount", String.valueOf(debitCount));
         response.put("creditCount", String.valueOf(creditCount));
         response.put("rollbackCount", String.valueOf(rollbackCount));
@@ -356,11 +356,11 @@ public class ParseController {
     }
 
     private static String parseLine(String line) {
-        // System.out.println(line);
+
         line = line.substring(line.indexOf("{"));
         try {
             JSONObject toParse = new JSONObject(line);
-            //System.out.println(toParse.getString("transactionId") + "\t" + toParse.getBigInteger("timestamp"));
+
             return (toParse.getString("transactionId") + "\t" + toParse.getBigInteger("timestamp") + "\n");
 
         } catch (JSONException e) {
@@ -370,11 +370,11 @@ public class ParseController {
     }
 
     private static String getOperatorId(String line) {
-        // System.out.println(line);
+
         line = line.substring(line.indexOf("{"));
         try {
             JSONObject toParse = new JSONObject(line);
-            //System.out.println(toParse.getString("transactionId") + "\t" + toParse.getBigInteger("timestamp"));
+
             return (String.valueOf(toParse.getLong("operatorId")));
 
         } catch (JSONException e) {
@@ -383,7 +383,7 @@ public class ParseController {
     }
 
     private static String getRoundId(String line, long operatorId) {
-        // System.out.println(line);
+
         line = line.substring(line.indexOf("{"));
         try {
             JSONObject toParse = new JSONObject(line);
