@@ -1,5 +1,8 @@
 package com.localServer.rest;
 
+import com.localServer.beans.AnalyseBeans.OperatorST;
+import com.localServer.beans.AnalyseBeans.Result;
+import com.localServer.beans.AnalyseBeans.Round;
 import com.localServer.beans.Answer;
 import com.localServer.beans.SearchData;
 import org.json.JSONException;
@@ -106,6 +109,10 @@ public class ParseController {
     @PostMapping("/gettransactions")
     public ResponseEntity<?> analyseLog(@RequestParam(name = "operator") long operatorId, @RequestBody SearchData searchData) {
         return new ResponseEntity<HashMap>(prepareLines(1, operatorId, searchData), HttpStatus.OK);
+    }
+    @PostMapping("/stress")
+    public ResponseEntity<?> stressTest (@RequestParam(name = "operator") long operatorId) {
+        return new ResponseEntity<Result>(new Result(new OperatorST(operatorId, new ArrayList<Round>()),0,0,0,0,0),HttpStatus.OK);
     }
 
     private static HashMap<String, String> prepareLines(int requestType, long operatorId, SearchData searchData) {
