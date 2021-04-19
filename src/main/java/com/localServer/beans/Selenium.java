@@ -5,13 +5,13 @@ import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 
 
-
 import org.openqa.selenium.support.ui.Select;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
 
+import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
 
 @Component
@@ -73,122 +73,134 @@ public class Selenium {
 
     public ResponseEntity<?> createOperator(Operator operator) {
         try {
-        WebDriver webDriver = webDriver1;
-        webDriver.get("https://boint.tableslive.com/office.php?action=admin&sub_act=operator_page"); //create operator
-        webDriver.findElement(By.xpath("//*[@id=\"center\"]/form/table/tbody/tr[1]/td[1]/a/strong")).click();
-        webDriver.findElement(By.xpath("//*[@id=\"CustomID\"]")).sendKeys(String.valueOf(operator.getOperatorId()));
-        webDriver.findElement(By.xpath("//*[@id=\"center\"]/form/table/tbody/tr[2]/td[2]/input")).sendKeys(operator.getOperatorName());
-        webDriver.findElement(By.xpath("//*[@id=\"center\"]/form/table/tbody/tr[3]/td[2]/input")).sendKeys(String.valueOf(1));
-        webDriver.findElement(By.xpath("//*[@id=\"center\"]/form/table/tbody/tr[4]/td[2]/input")).sendKeys(String.valueOf(1));
-        webDriver.findElement(By.xpath("//*[@id=\"center\"]/form/table/tbody/tr[5]/td[2]/input")).sendKeys(String.valueOf(1));
-        webDriver.findElement(By.xpath("//*[@id=\"center\"]/form/table/tbody/tr[6]/td[2]/input")).sendKeys(String.valueOf(1));
-        Select dropdown = new Select(webDriver.findElement(By.xpath("//*[@id=\"IsActive\"]")));
-        dropdown.selectByVisibleText("Active");
-        if (webDriver.findElement(By.xpath("//*[@id=\"CustomIDStatus\"]")).getText().contains("Taken By")) {
-            return new ResponseEntity<>("Operator ID already taken", HttpStatus.IM_USED);
-        }
-        webDriver.findElement(By.xpath("//*[@id=\"center\"]/form/table/tbody/tr[13]/td[2]/input")).click();
-        try {
-            TimeUnit.SECONDS.sleep(2);
-        } catch (InterruptedException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-        webDriver.get("https://boint.tableslive.com/office.php?action=admin&sub_act=bo_user_page"); // create bo user
-        webDriver.findElement(By.xpath("//*[@id=\"center\"]/form/table[1]/tbody/tr[1]/td[2]/input")).sendKeys(operator.getBoUserName());
-        webDriver.findElement(By.xpath("//*[@id=\"newpass1\"]")).sendKeys(operator.getBoPassword());
-        webDriver.findElement(By.xpath("//*[@id=\"newpass2\"]")).sendKeys(operator.getBoPassword());
-
-        char[] operatorId = String.valueOf(operator.getOperatorId()).toCharArray();
-        while (true) {
-            webDriver.findElement(By.xpath("//*[@id=\"OperatorDisplay\"]")).clear();
-            for (char number : operatorId) {
-                webDriver.findElement(By.xpath("//*[@id=\"OperatorDisplay\"]")).sendKeys(String.valueOf(number));
+            WebDriver webDriver = webDriver1;
+            webDriver.get("https://boint.tableslive.com/office.php?action=admin&sub_act=operator_page"); //create operator
+            webDriver.findElement(By.xpath("//*[@id=\"center\"]/form/table/tbody/tr[1]/td[1]/a/strong")).click();
+            webDriver.findElement(By.xpath("//*[@id=\"CustomID\"]")).sendKeys(String.valueOf(operator.getOperatorId()));
+            webDriver.findElement(By.xpath("//*[@id=\"center\"]/form/table/tbody/tr[2]/td[2]/input")).sendKeys(operator.getOperatorName());
+            webDriver.findElement(By.xpath("//*[@id=\"center\"]/form/table/tbody/tr[3]/td[2]/input")).sendKeys(String.valueOf(1));
+            webDriver.findElement(By.xpath("//*[@id=\"center\"]/form/table/tbody/tr[4]/td[2]/input")).sendKeys(String.valueOf(1));
+            webDriver.findElement(By.xpath("//*[@id=\"center\"]/form/table/tbody/tr[5]/td[2]/input")).sendKeys(String.valueOf(1));
+            webDriver.findElement(By.xpath("//*[@id=\"center\"]/form/table/tbody/tr[6]/td[2]/input")).sendKeys(String.valueOf(1));
+            Select dropdown = new Select(webDriver.findElement(By.xpath("//*[@id=\"IsActive\"]")));
+            dropdown.selectByVisibleText("Active");
+            if (webDriver.findElement(By.xpath("//*[@id=\"CustomIDStatus\"]")).getText().contains("Taken By")) {
+                return new ResponseEntity<>("Operator ID already taken", HttpStatus.IM_USED);
             }
+            webDriver.findElement(By.xpath("//*[@id=\"center\"]/form/table/tbody/tr[13]/td[2]/input")).click();
             try {
-                TimeUnit.SECONDS.sleep(1);
+                TimeUnit.SECONDS.sleep(2);
             } catch (InterruptedException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
             }
-            if (webDriver.findElement(By.xpath("/html/body/div[4]/form/table[1]/tbody/tr[4]/td[2]/table/tbody/tr/td/table/tbody/tr/td/select/option[1]")).getText().contains(String.valueOf(operator.getOperatorId()))) {
-                webDriver.findElement(By.xpath("/html/body/div[4]/form/table[1]/tbody/tr[4]/td[2]/table/tbody/tr/td/table/tbody/tr/td/select/option[1]")).click();
-                break;
+            webDriver.get("https://boint.tableslive.com/office.php?action=admin&sub_act=bo_user_page"); // create bo user
+            webDriver.findElement(By.xpath("//*[@id=\"center\"]/form/table[1]/tbody/tr[1]/td[2]/input")).sendKeys(operator.getBoUserName());
+            webDriver.findElement(By.xpath("//*[@id=\"newpass1\"]")).sendKeys(operator.getBoPassword());
+            webDriver.findElement(By.xpath("//*[@id=\"newpass2\"]")).sendKeys(operator.getBoPassword());
+
+            char[] operatorId = String.valueOf(operator.getOperatorId()).toCharArray();
+            while (true) {
+                webDriver.findElement(By.xpath("//*[@id=\"OperatorDisplay\"]")).clear();
+                for (char number : operatorId) {
+                    webDriver.findElement(By.xpath("//*[@id=\"OperatorDisplay\"]")).sendKeys(String.valueOf(number));
+                }
+                try {
+                    TimeUnit.SECONDS.sleep(1);
+                } catch (InterruptedException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+                if (webDriver.findElement(By.xpath("/html/body/div[4]/form/table[1]/tbody/tr[4]/td[2]/table/tbody/tr/td/table/tbody/tr/td/select/option[1]")).getText().contains(String.valueOf(operator.getOperatorId()))) {
+                    webDriver.findElement(By.xpath("/html/body/div[4]/form/table[1]/tbody/tr[4]/td[2]/table/tbody/tr/td/table/tbody/tr/td/select/option[1]")).click();
+                    break;
+                }
             }
-        }
-        dropdown = new Select(webDriver.findElement((By.xpath("//*[@id=\"PermissionTypeID\"]"))));
-        dropdown.selectByVisibleText("Jedi");
-        dropdown.selectByVisibleText("Custom");
-        dropdown = new Select(webDriver.findElement(By.xpath("//*[@id=\"ConversionCode\"]")));
-        dropdown.selectByVisibleText("EUR");
-        webDriver.findElement(By.xpath("/html/body/div[4]/form/table[1]/tbody/tr[15]/td[3]/div/input[1]")).sendKeys(Keys.SPACE);
-        dropdown = new Select(webDriver.findElement(By.xpath("//*[@id=\"TempTypeID\"]")));
-        dropdown.selectByVisibleText("INT Layer");
-        JavascriptExecutor executor = (JavascriptExecutor) webDriver;
-        executor.executeScript("arguments[0].click();", webDriver.findElement(By.xpath("/html/body/div[4]/form/table[2]/tbody/tr/td[1]/table/tbody/tr/td/table/tbody/tr[25]/td[1]/div/label"))); //Outgoing Financial Messages
-        executor.executeScript("arguments[0].click();", webDriver.findElement(By.xpath("/html/body/div[4]/form/table[2]/tbody/tr/td[1]/table/tbody/tr/td/table/tbody/tr[28]/td[1]/div/label"))); //Roulette Radar
-        executor.executeScript("arguments[0].click();", webDriver.findElement(By.xpath("/html/body/div[4]/form/table[2]/tbody/tr/td[1]/table/tbody/tr/td/table/tbody/tr[20]/td[2]/div/label"))); //Late Bets Reports
-        executor.executeScript("arguments[0].click();", webDriver.findElement(By.xpath("/html/body/div[4]/form/table[2]/tbody/tr/td[1]/table/tbody/tr/td/table/tbody/tr[13]/td[1]/div/label"))); //Games
-        executor.executeScript("arguments[0].click();", webDriver.findElement(By.xpath("/html/body/div[4]/form/table[2]/tbody/tr/td[1]/table/tbody/tr/td/table/tbody/tr[38]/td/div/label"))); //Settings
-        executor.executeScript("arguments[0].click();", webDriver.findElement(By.xpath("/html/body/div[4]/form/table[2]/tbody/tr/td[1]/table/tbody/tr/td/table/tbody/tr[38]/td/div/label"))); //Settings
-        executor.executeScript("arguments[0].click();", webDriver.findElement(By.xpath("/html/body/div[4]/form/table[2]/tbody/tr/td[1]/table/tbody/tr/td/table/tbody/tr[83]/td/div/label"))); //Admin
-        executor.executeScript("arguments[0].click();", webDriver.findElement(By.xpath("/html/body/div[4]/form/table[2]/tbody/tr/td[1]/table/tbody/tr/td/table/tbody/tr[83]/td/div/label"))); //Admin
-        executor.executeScript("arguments[0].click();", webDriver.findElement(By.xpath("/html/body/div[4]/form/table[2]/tbody/tr/td[1]/table/tbody/tr/td/table/tbody/tr[86]/td[1]/div/label"))); //Change Password
-        executor.executeScript("arguments[0].click();", webDriver.findElement(By.xpath("/html/body/div[4]/form/table[2]/tbody/tr/td[1]/table/tbody/tr/td/table/tbody/tr[106]/td[1]/div/label"))); //Api Access
+            dropdown = new Select(webDriver.findElement((By.xpath("//*[@id=\"PermissionTypeID\"]"))));
+            dropdown.selectByVisibleText("Jedi");
+            dropdown.selectByVisibleText("Custom");
+            dropdown = new Select(webDriver.findElement(By.xpath("//*[@id=\"ConversionCode\"]")));
+            dropdown.selectByVisibleText("EUR");
+            webDriver.findElement(By.xpath("/html/body/div[4]/form/table[1]/tbody/tr[15]/td[3]/div/input[1]")).sendKeys(Keys.SPACE);
+            dropdown = new Select(webDriver.findElement(By.xpath("//*[@id=\"TempTypeID\"]")));
+            dropdown.selectByVisibleText("INT Layer");
+            JavascriptExecutor executor = (JavascriptExecutor) webDriver;
+//        executor.executeScript("arguments[0].click();", webDriver.findElement(By.xpath("/html/body/div[4]/form/table[2]/tbody/tr/td[1]/table/tbody/tr/td/table/tbody/tr[25]/td[2]/div/label"))); //Outgoing Financial Messages
+            executor.executeScript("arguments[0].click();", webDriver.findElement(By.xpath("//*[@id=\"outgoing_bets\"]"))); //Outgoing Financial Messages
+//        executor.executeScript("arguments[0].click();", webDriver.findElement(By.xpath("/html/body/div[4]/form/table[2]/tbody/tr/td[1]/table/tbody/tr/td/table/tbody/tr[28]/td[2]/div/label"))); //Roulette Radar
+            executor.executeScript("arguments[0].click();", webDriver.findElement(By.xpath("//*[@id=\"roulette_radar\"]"))); //Roulette Radar
+//        executor.executeScript("arguments[0].click();", webDriver.findElement(By.xpath("/html/body/div[4]/form/table[2]/tbody/tr/td[1]/table/tbody/tr/td/table/tbody/tr[20]/td[1]/div/label"))); //Late Bets Reports
+            executor.executeScript("arguments[0].click();", webDriver.findElement(By.xpath("//*[@id=\"late_bet\"]"))); //Late Bets Reports
+//        executor.executeScript("arguments[0].click();", webDriver.findElement(By.xpath("/html/body/div[4]/form/table[2]/tbody/tr/td[1]/table/tbody/tr/td/table/tbody/tr[13]/td[1]/div/label"))); //Games
+            executor.executeScript("arguments[0].click();", webDriver.findElement(By.xpath("//*[@id=\"game_rounds\"]"))); //Games
+            executor.executeScript("arguments[0].click();", webDriver.findElement(By.xpath("/html/body/div[4]/form/table[2]/tbody/tr/td[1]/table/tbody/tr/td/table/tbody/tr[38]/td/div/label"))); //Settings
+//        executor.executeScript("arguments[0].click();", webDriver.findElement(By.xpath("//*[@id=\"settings\"]"))); //Settings
+            executor.executeScript("arguments[0].click();", webDriver.findElement(By.xpath("/html/body/div[4]/form/table[2]/tbody/tr/td[1]/table/tbody/tr/td/table/tbody/tr[38]/td/div/label"))); //Settings
+//        executor.executeScript("arguments[0].click();", webDriver.findElement(By.xpath("//*[@id=\"settings\"]"))); //Settings
+            executor.executeScript("arguments[0].click();", webDriver.findElement(By.xpath("/html/body/div[4]/form/table[2]/tbody/tr/td[1]/table/tbody/tr/td/table/tbody/tr[83]/td/div/label"))); //Admin
+//        executor.executeScript("arguments[0].click();", webDriver.findElement(By.xpath("//*[@id=\"admin\"]"))); //Admin
+            executor.executeScript("arguments[0].click();", webDriver.findElement(By.xpath("/html/body/div[4]/form/table[2]/tbody/tr/td[1]/table/tbody/tr/td/table/tbody/tr[83]/td/div/label"))); //Admin
+//        executor.executeScript("arguments[0].click();", webDriver.findElement(By.xpath("//*[@id=\"admin\"]"))); //Admin
+//        executor.executeScript("arguments[0].click();", webDriver.findElement(By.xpath("/html/body/div[4]/form/table[2]/tbody/tr/td[1]/table/tbody/tr/td/table/tbody/tr[86]/td[1]/div/label"))); //Change Password
+            executor.executeScript("arguments[0].click();", webDriver.findElement(By.xpath("//*[@id=\"change_password\"]"))); //Change Password
+//        executor.executeScript("arguments[0].click();", webDriver.findElement(By.xpath("/html/body/div[4]/form/table[2]/tbody/tr/td[1]/table/tbody/tr/td/table/tbody/tr[106]/td[1]/div/label"))); //Api Access
+            executor.executeScript("arguments[0].click();", webDriver.findElement(By.xpath("//*[@id=\"api_access\"]"))); //Api Access
 
 
-      webDriver.findElement(By.xpath("/html/body/div[4]/form/table[1]/tbody/tr[16]/td[2]/input")).click();
-        try {
-            TimeUnit.SECONDS.sleep(3);
-        } catch (InterruptedException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-        webDriver.get("https://boint.tableslive.com/office.php?action=settings&sub_act=operator_config_old"); //config apache
-        webDriver.switchTo().frame(webDriver.findElement(By.xpath("/html/body/div[4]/iframe")));
-        webDriver.findElement(By.xpath("/html/body/div[1]/div[2]")).click();
-        webDriver.findElement(By.xpath("//*[@id=\"operator-config\"]/input")).sendKeys(String.valueOf(operator.getOperatorId()));
-        dropdown = new Select(webDriver.findElement(By.xpath("//*[@id=\"operator-config\"]/select")));
-        dropdown.selectByVisibleText("10457001");
-         webDriver.findElement(By.xpath("//*[@id=\"operator-config\"]/button")).click();
-         Alert alert = webDriver.switchTo().alert();
+            webDriver.findElement(By.xpath("/html/body/div[4]/form/table[1]/tbody/tr[16]/td[2]/input")).click();
+            try {
+                TimeUnit.SECONDS.sleep(3);
+            } catch (InterruptedException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+//            Scanner sc = new Scanner(System.in);
+//            int i = sc.nextInt();
+            webDriver.get("https://boint.tableslive.com/office.php?action=settings&sub_act=operator_config_old"); //config apache
+            webDriver.switchTo().frame(webDriver.findElement(By.xpath("/html/body/div[4]/iframe")));
+            webDriver.findElement(By.xpath("/html/body/div[1]/div[2]")).click();
+            webDriver.findElement(By.xpath("//*[@id=\"operator-config\"]/input")).sendKeys(String.valueOf(operator.getOperatorId()));
+            dropdown = new Select(webDriver.findElement(By.xpath("//*[@id=\"operator-config\"]/select")));
+            dropdown.selectByVisibleText("10457001");
+            webDriver.findElement(By.xpath("//*[@id=\"operator-config\"]/button")).click();
+            Alert alert = webDriver.switchTo().alert();
             alert.accept();
             try {
                 TimeUnit.SECONDS.sleep(1);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-        webDriver.get("https://boint.tableslive.com/office.php?action=settings&sub_act=add_limits"); //limits
-        try {
-            TimeUnit.SECONDS.sleep(1);
-        } catch (InterruptedException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-        for (String limit:operator.getLimits()) {
+            webDriver.get("https://boint.tableslive.com/office.php?action=settings&sub_act=add_limits"); //limits
             try {
                 TimeUnit.SECONDS.sleep(1);
             } catch (InterruptedException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
             }
-            Select dropdown1 = new Select(webDriver.findElement(By.xpath("//*[@id=\"currency_from\"]")));
-            dropdown = new Select(webDriver.findElement(By.xpath("//*[@id=\"currency_to\"]")));
-            webDriver.findElement(By.xpath("/html/body/div[4]/form/div/table/tbody/tr[2]/td[2]/input")).sendKeys("13000014");
-            webDriver.findElement(By.xpath("/html/body/div[4]/form/div/table/tbody/tr[3]/td[2]/input")).sendKeys(String.valueOf(operator.getOperatorId()));
-            dropdown1.selectByVisibleText(limit);
-            dropdown.selectByVisibleText(limit);
-      webDriver.findElement(By.xpath("//*[@id=\"center\"]/form/div/table/tbody/tr[5]/td/input")).click();
-            try {
-                TimeUnit.SECONDS.sleep(1);
-            } catch (InterruptedException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
+            for (String limit : operator.getLimits()) {
+                try {
+                    TimeUnit.SECONDS.sleep(1);
+                } catch (InterruptedException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+                Select dropdown1 = new Select(webDriver.findElement(By.xpath("//*[@id=\"currency_from\"]")));
+                dropdown = new Select(webDriver.findElement(By.xpath("//*[@id=\"currency_to\"]")));
+                webDriver.findElement(By.xpath("/html/body/div[4]/form/div/table/tbody/tr[2]/td[2]/input")).sendKeys("13000014");
+                webDriver.findElement(By.xpath("/html/body/div[4]/form/div/table/tbody/tr[3]/td[2]/input")).sendKeys(String.valueOf(operator.getOperatorId()));
+                dropdown1.selectByVisibleText(limit);
+                dropdown.selectByVisibleText(limit);
+                webDriver.findElement(By.xpath("//*[@id=\"center\"]/form/div/table/tbody/tr[5]/td/input")).click();
+                try {
+                    TimeUnit.SECONDS.sleep(1);
+                } catch (InterruptedException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
             }
-        }
             webDriver.quit();
-           webDriver1 = null;
-        return new ResponseEntity<HttpStatus>(HttpStatus.OK);
+            webDriver1 = null;
+            return new ResponseEntity<HttpStatus>(HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>("Something went wrong", HttpStatus.BAD_REQUEST);
         }
@@ -293,11 +305,11 @@ public class Selenium {
         WebDriver webDriver = null;
         try {
 
-           WebDriverManager.chromedriver().setup();
-          //  WebDriverManager.firefoxdriver().setup();
+            WebDriverManager.chromedriver().setup();
+            //  WebDriverManager.firefoxdriver().setup();
             if (webDriver1 == null && webDriver == null) {
-             webDriver = new ChromeDriver();
-             //   webDriver = new FirefoxDriver();
+                webDriver = new ChromeDriver();
+                //   webDriver = new FirefoxDriver();
             } else {
                 webDriver = webDriver1;
             }
