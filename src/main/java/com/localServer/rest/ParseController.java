@@ -1,5 +1,6 @@
 package com.localServer.rest;
 
+import com.google.gson.Gson;
 import com.localServer.beans.AnalyseBeans.ResultST;
 import com.localServer.beans.AnalyseBeans.RoundST;
 import com.localServer.beans.AnalyseBeans.TransactionST;
@@ -14,6 +15,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -26,7 +28,6 @@ import static com.localServer.beans.Constants.GAMEIDS;
 @CrossOrigin(origins = "*")
 @RequestMapping("/parse")
 public class ParseController {
-
     @Autowired
     SearchData searchData;
     @Autowired
@@ -123,6 +124,19 @@ public class ParseController {
 
         return new ResponseEntity<ResultST>(resultST, HttpStatus.OK);
     }
+//    Do not enable. There is no Excel Output in Local Server.
+//    @PostMapping("/report")
+//    public ResponseEntity<?> createReport(@RequestParam(name = "operator") long operatorId, @RequestBody String result) {
+//        Gson gson = new Gson();
+//        ResultST resultST = gson.fromJson(result, ResultST.class);
+//        return excelOutput.createReport(operatorId, resultST);
+//    }
+//
+//    @GetMapping("/getfile")
+//    public ResponseEntity<?> getFile(@RequestParam(name = "filename") String fileName) throws IOException {
+////        String fileName = servletRequest.getHeader("fileName");
+//        return excelOutput.sendFile(fileName);
+//    }
 
     private static ResultST createResult(long operatorId, SearchData searchData) {
         ArrayList<RoundST> roundsST = new ArrayList<>();
@@ -386,7 +400,7 @@ public class ParseController {
                         }
                     }
                 }
-                if (i == txns.size() - 2 && !revenueCalc[1].equals(revenueCalc[0]) && !revenueCalc[2].equals("10000000000000000000.00")) {
+                if (i == txns.size() - 2 && !revenueCalc[1].equals(revenueCalc[0]) && !revenueCalc[1].equals(revenueCalc[2]) && !revenueCalc[2].equals("10000000000000000000.00")) {
                     TransactionST temp = transactions.get(txns.get(i + 1).getTransactionId());
                     temp.setCorrectPlace(false);
                 }
@@ -427,7 +441,7 @@ public class ParseController {
                 }
                 debits.add(transaction);
                 seatAndBet.put(transaction.getSeatId(), transaction.getBet());
-                if (transaction.getBalance() > maxDebitBalance && !lastTransactionTip) {
+                if (transaction.getBalance() > maxDebitBalance && !lastTransactionTip && credits.size()==0) {
                     maxDebitBalance = transaction.getBalance();
                     maxDebitTransactionST = transaction;
                 }
