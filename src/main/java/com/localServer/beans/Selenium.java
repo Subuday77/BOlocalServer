@@ -137,9 +137,9 @@ public class Selenium {
 //        executor.executeScript("arguments[0].click();", webDriver.findElement(By.xpath("//*[@id=\"settings\"]"))); //Settings
             executor.executeScript("arguments[0].click();", webDriver.findElement(By.xpath("/html/body/div[4]/form/table[2]/tbody/tr/td[1]/table/tbody/tr/td/table/tbody/tr[38]/td/div/label"))); //Settings
 //        executor.executeScript("arguments[0].click();", webDriver.findElement(By.xpath("//*[@id=\"settings\"]"))); //Settings
-            executor.executeScript("arguments[0].click();", webDriver.findElement(By.xpath("/html/body/div[4]/form/table[2]/tbody/tr/td[1]/table/tbody/tr/td/table/tbody/tr[84]/td/div/label"))); //Admin
+            executor.executeScript("arguments[0].click();", webDriver.findElement(By.xpath("/html/body/div[4]/form/table[2]/tbody/tr/td[1]/table/tbody/tr/td/table/tbody/tr[86]/td/div/label"))); //Admin
 //        executor.executeScript("arguments[0].click();", webDriver.findElement(By.xpath("//*[@id=\"admin\"]"))); //Admin
-            executor.executeScript("arguments[0].click();", webDriver.findElement(By.xpath("/html/body/div[4]/form/table[2]/tbody/tr/td[1]/table/tbody/tr/td/table/tbody/tr[84]/td/div/label"))); //Admin
+            executor.executeScript("arguments[0].click();", webDriver.findElement(By.xpath("/html/body/div[4]/form/table[2]/tbody/tr/td[1]/table/tbody/tr/td/table/tbody/tr[86]/td/div/label"))); //Admin
 //        executor.executeScript("arguments[0].click();", webDriver.findElement(By.xpath("//*[@id=\"admin\"]"))); //Admin
 //        executor.executeScript("arguments[0].click();", webDriver.findElement(By.xpath("/html/body/div[4]/form/table[2]/tbody/tr/td[1]/table/tbody/tr/td/table/tbody/tr[87]/td[1]/div/label"))); //Change Password
             executor.executeScript("arguments[0].click();", webDriver.findElement(By.xpath("//*[@id=\"change_password\"]"))); //Change Password
