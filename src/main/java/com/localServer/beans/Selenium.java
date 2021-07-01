@@ -49,7 +49,7 @@ public class Selenium {
             }
             if (webDriver.getCurrentUrl().equals("https://boint.tableslive.com/office.php?page=login")) {
 
-                webDriver.quit();
+              webDriver.quit();
                 webDriver1 = null;
                 return new ResponseEntity<>("Invalid user or password. Try again.", HttpStatus.FORBIDDEN);
 
@@ -87,7 +87,7 @@ public class Selenium {
             if (webDriver.findElement(By.xpath("//*[@id=\"CustomIDStatus\"]")).getText().contains("Taken By")) {
                 return new ResponseEntity<>("Operator ID already taken", HttpStatus.IM_USED);
             }
-            webDriver.findElement(By.xpath("//*[@id=\"center\"]/form/table/tbody/tr[13]/td[2]/input")).click();
+            webDriver.findElement(By.xpath("//*[@id=\"center\"]/form/table/tbody/tr[14]/td[2]/input")).click();
             try {
                 TimeUnit.SECONDS.sleep(2);
             } catch (InterruptedException e) {
@@ -133,13 +133,14 @@ public class Selenium {
             executor.executeScript("arguments[0].click();", webDriver.findElement(By.xpath("//*[@id=\"late_bet\"]"))); //Late Bets Reports
 //        executor.executeScript("arguments[0].click();", webDriver.findElement(By.xpath("/html/body/div[4]/form/table[2]/tbody/tr/td[1]/table/tbody/tr/td/table/tbody/tr[13]/td[1]/div/label"))); //Games
             executor.executeScript("arguments[0].click();", webDriver.findElement(By.xpath("//*[@id=\"game_rounds\"]"))); //Games
-            executor.executeScript("arguments[0].click();", webDriver.findElement(By.xpath("/html/body/div[4]/form/table[2]/tbody/tr/td[1]/table/tbody/tr/td/table/tbody/tr[38]/td/div/label"))); //Settings
+           executor.executeScript("arguments[0].click();", webDriver.findElement(By.xpath("/html/body/div[4]/form/table[2]/tbody/tr/td[1]/table/tbody/tr/td/table/tbody/tr[44]/td/div/label"))); //Settings
+
 //        executor.executeScript("arguments[0].click();", webDriver.findElement(By.xpath("//*[@id=\"settings\"]"))); //Settings
-            executor.executeScript("arguments[0].click();", webDriver.findElement(By.xpath("/html/body/div[4]/form/table[2]/tbody/tr/td[1]/table/tbody/tr/td/table/tbody/tr[38]/td/div/label"))); //Settings
+            executor.executeScript("arguments[0].click();", webDriver.findElement(By.xpath("/html/body/div[4]/form/table[2]/tbody/tr/td[1]/table/tbody/tr/td/table/tbody/tr[44]/td/div/label"))); //Settings
 //        executor.executeScript("arguments[0].click();", webDriver.findElement(By.xpath("//*[@id=\"settings\"]"))); //Settings
-            executor.executeScript("arguments[0].click();", webDriver.findElement(By.xpath("/html/body/div[4]/form/table[2]/tbody/tr/td[1]/table/tbody/tr/td/table/tbody/tr[86]/td/div/label"))); //Admin
+            executor.executeScript("arguments[0].click();", webDriver.findElement(By.xpath("/html/body/div[4]/form/table[2]/tbody/tr/td[1]/table/tbody/tr/td/table/tbody/tr[92]/td/div/label"))); //Admin
 //        executor.executeScript("arguments[0].click();", webDriver.findElement(By.xpath("//*[@id=\"admin\"]"))); //Admin
-            executor.executeScript("arguments[0].click();", webDriver.findElement(By.xpath("/html/body/div[4]/form/table[2]/tbody/tr/td[1]/table/tbody/tr/td/table/tbody/tr[86]/td/div/label"))); //Admin
+            executor.executeScript("arguments[0].click();", webDriver.findElement(By.xpath("/html/body/div[4]/form/table[2]/tbody/tr/td[1]/table/tbody/tr/td/table/tbody/tr[92]/td/div/label"))); //Admin
 //        executor.executeScript("arguments[0].click();", webDriver.findElement(By.xpath("//*[@id=\"admin\"]"))); //Admin
 //        executor.executeScript("arguments[0].click();", webDriver.findElement(By.xpath("/html/body/div[4]/form/table[2]/tbody/tr/td[1]/table/tbody/tr/td/table/tbody/tr[87]/td[1]/div/label"))); //Change Password
             executor.executeScript("arguments[0].click();", webDriver.findElement(By.xpath("//*[@id=\"change_password\"]"))); //Change Password
