@@ -123,30 +123,30 @@ public class Selenium {
             dropdown.selectByVisibleText("EUR");
             webDriver.findElement(By.xpath("/html/body/div[4]/form/table[1]/tbody/tr[15]/td[3]/div/input[1]")).sendKeys(Keys.SPACE);
             dropdown = new Select(webDriver.findElement(By.xpath("//*[@id=\"TempTypeID\"]")));
-            dropdown.selectByVisibleText("INT Layer");
-            JavascriptExecutor executor = (JavascriptExecutor) webDriver;
-//        executor.executeScript("arguments[0].click();", webDriver.findElement(By.xpath("/html/body/div[4]/form/table[2]/tbody/tr/td[1]/table/tbody/tr/td/table/tbody/tr[25]/td[2]/div/label"))); //Outgoing Financial Messages
-            executor.executeScript("arguments[0].click();", webDriver.findElement(By.xpath("//*[@id=\"outgoing_bets\"]"))); //Outgoing Financial Messages
-//        executor.executeScript("arguments[0].click();", webDriver.findElement(By.xpath("/html/body/div[4]/form/table[2]/tbody/tr/td[1]/table/tbody/tr/td/table/tbody/tr[28]/td[2]/div/label"))); //Roulette Radar
-            executor.executeScript("arguments[0].click();", webDriver.findElement(By.xpath("//*[@id=\"roulette_radar\"]"))); //Roulette Radar
-//        executor.executeScript("arguments[0].click();", webDriver.findElement(By.xpath("/html/body/div[4]/form/table[2]/tbody/tr/td[1]/table/tbody/tr/td/table/tbody/tr[20]/td[1]/div/label"))); //Late Bets Reports
-            executor.executeScript("arguments[0].click();", webDriver.findElement(By.xpath("//*[@id=\"late_bet\"]"))); //Late Bets Reports
-//        executor.executeScript("arguments[0].click();", webDriver.findElement(By.xpath("/html/body/div[4]/form/table[2]/tbody/tr/td[1]/table/tbody/tr/td/table/tbody/tr[13]/td[1]/div/label"))); //Games
-            executor.executeScript("arguments[0].click();", webDriver.findElement(By.xpath("//*[@id=\"game_rounds\"]"))); //Games
-           executor.executeScript("arguments[0].click();", webDriver.findElement(By.xpath("/html/body/div[4]/form/table[2]/tbody/tr/td[1]/table/tbody/tr/td/table/tbody/tr[20]/td/div/label"))); //Settings
-
-//        executor.executeScript("arguments[0].click();", webDriver.findElement(By.xpath("//*[@id=\"settings\"]"))); //Settings
-            executor.executeScript("arguments[0].click();", webDriver.findElement(By.xpath("/html/body/div[4]/form/table[2]/tbody/tr/td[1]/table/tbody/tr/td/table/tbody/tr[20]/td/div/label"))); //Settings
-//        executor.executeScript("arguments[0].click();", webDriver.findElement(By.xpath("//*[@id=\"settings\"]"))); //Settings
-            executor.executeScript("arguments[0].click();", webDriver.findElement(By.xpath("/html/body/div[4]/form/table[2]/tbody/tr/td[1]/table/tbody/tr/td/table/tbody/tr[61]/td/div/label"))); //Admin
-//        executor.executeScript("arguments[0].click();", webDriver.findElement(By.xpath("//*[@id=\"admin\"]"))); //Admin
-            executor.executeScript("arguments[0].click();", webDriver.findElement(By.xpath("/html/body/div[4]/form/table[2]/tbody/tr/td[1]/table/tbody/tr/td/table/tbody/tr[61]/td/div/label"))); //Admin
-//        executor.executeScript("arguments[0].click();", webDriver.findElement(By.xpath("//*[@id=\"admin\"]"))); //Admin
-//        executor.executeScript("arguments[0].click();", webDriver.findElement(By.xpath("/html/body/div[4]/form/table[2]/tbody/tr/td[1]/table/tbody/tr/td/table/tbody/tr[87]/td[1]/div/label"))); //Change Password
-            executor.executeScript("arguments[0].click();", webDriver.findElement(By.xpath("//*[@id=\"change_password\"]"))); //Change Password
-//        executor.executeScript("arguments[0].click();", webDriver.findElement(By.xpath("/html/body/div[4]/form/table[2]/tbody/tr/td[1]/table/tbody/tr/td/table/tbody/tr[106]/td[1]/div/label"))); //Api Access
-            executor.executeScript("arguments[0].click();", webDriver.findElement(By.xpath("//*[@id=\"api_access\"]"))); //Api Access
-
+            dropdown.selectByVisibleText("Default user");
+//            JavascriptExecutor executor = (JavascriptExecutor) webDriver;
+////        executor.executeScript("arguments[0].click();", webDriver.findElement(By.xpath("/html/body/div[4]/form/table[2]/tbody/tr/td[1]/table/tbody/tr/td/table/tbody/tr[25]/td[2]/div/label"))); //Outgoing Financial Messages
+//            executor.executeScript("arguments[0].click();", webDriver.findElement(By.xpath("//*[@id=\"outgoing_bets\"]"))); //Outgoing Financial Messages
+////        executor.executeScript("arguments[0].click();", webDriver.findElement(By.xpath("/html/body/div[4]/form/table[2]/tbody/tr/td[1]/table/tbody/tr/td/table/tbody/tr[28]/td[2]/div/label"))); //Roulette Radar
+//            executor.executeScript("arguments[0].click();", webDriver.findElement(By.xpath("//*[@id=\"roulette_radar\"]"))); //Roulette Radar
+////        executor.executeScript("arguments[0].click();", webDriver.findElement(By.xpath("/html/body/div[4]/form/table[2]/tbody/tr/td[1]/table/tbody/tr/td/table/tbody/tr[20]/td[1]/div/label"))); //Late Bets Reports
+//            executor.executeScript("arguments[0].click();", webDriver.findElement(By.xpath("//*[@id=\"late_bet\"]"))); //Late Bets Reports
+////        executor.executeScript("arguments[0].click();", webDriver.findElement(By.xpath("/html/body/div[4]/form/table[2]/tbody/tr/td[1]/table/tbody/tr/td/table/tbody/tr[13]/td[1]/div/label"))); //Games
+//            executor.executeScript("arguments[0].click();", webDriver.findElement(By.xpath("//*[@id=\"game_rounds\"]"))); //Games
+//           executor.executeScript("arguments[0].click();", webDriver.findElement(By.xpath("/html/body/div[4]/form/table[2]/tbody/tr/td[1]/table/tbody/tr/td/table/tbody/tr[20]/td/div/label"))); //Settings
+//
+////        executor.executeScript("arguments[0].click();", webDriver.findElement(By.xpath("//*[@id=\"settings\"]"))); //Settings
+//            executor.executeScript("arguments[0].click();", webDriver.findElement(By.xpath("/html/body/div[4]/form/table[2]/tbody/tr/td[1]/table/tbody/tr/td/table/tbody/tr[20]/td/div/label"))); //Settings
+////        executor.executeScript("arguments[0].click();", webDriver.findElement(By.xpath("//*[@id=\"settings\"]"))); //Settings
+//            executor.executeScript("arguments[0].click();", webDriver.findElement(By.xpath("/html/body/div[4]/form/table[2]/tbody/tr/td[1]/table/tbody/tr/td/table/tbody/tr[61]/td/div/label"))); //Admin
+////        executor.executeScript("arguments[0].click();", webDriver.findElement(By.xpath("//*[@id=\"admin\"]"))); //Admin
+//            executor.executeScript("arguments[0].click();", webDriver.findElement(By.xpath("/html/body/div[4]/form/table[2]/tbody/tr/td[1]/table/tbody/tr/td/table/tbody/tr[61]/td/div/label"))); //Admin
+////        executor.executeScript("arguments[0].click();", webDriver.findElement(By.xpath("//*[@id=\"admin\"]"))); //Admin
+////        executor.executeScript("arguments[0].click();", webDriver.findElement(By.xpath("/html/body/div[4]/form/table[2]/tbody/tr/td[1]/table/tbody/tr/td/table/tbody/tr[87]/td[1]/div/label"))); //Change Password
+//            executor.executeScript("arguments[0].click();", webDriver.findElement(By.xpath("//*[@id=\"change_password\"]"))); //Change Password
+////        executor.executeScript("arguments[0].click();", webDriver.findElement(By.xpath("/html/body/div[4]/form/table[2]/tbody/tr/td[1]/table/tbody/tr/td/table/tbody/tr[106]/td[1]/div/label"))); //Api Access
+//            executor.executeScript("arguments[0].click();", webDriver.findElement(By.xpath("//*[@id=\"api_access\"]"))); //Api Access
+//
 
             webDriver.findElement(By.xpath("/html/body/div[4]/form/table[1]/tbody/tr[16]/td[2]/input")).click();
             try {
