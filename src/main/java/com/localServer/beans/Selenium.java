@@ -271,7 +271,7 @@ public class Selenium {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
             }
-            webDriver.findElement(By.xpath("/html/body/div[13]/div[7]/div/button")).click();
+            webDriver.findElement(By.xpath("/html/body/div[12]/div/div[6]/button[1]")).click();
         }
     }
 
@@ -299,7 +299,7 @@ public class Selenium {
                     // TODO Auto-generated catch block
                     e.printStackTrace();
                 }
-                webDriver.findElement(By.xpath("/html/body/div[13]/div[7]/div/button")).click();
+                webDriver.findElement(By.xpath("/html/body/div[12]/div/div[6]/button[1]")).click();
                 webDriver.findElement(By.xpath("//*[@id=\"report_form\"]/div[1]/div/table/tbody/tr/td[2]/input"))
                         .clear();
             }
